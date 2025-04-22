@@ -82,7 +82,7 @@ export default function EmailTemplate({
       <Html>
         <Head />
         <Preview>Budget Alert</Preview>
-        <Body styles={styles.body}>
+        <Body style={styles.body}>
           <Container style={styles.container}>
           <Heading style={styles.title}>Budget Alert</Heading>
           <Text style={styles.text}>Hello {userName},</Text>
