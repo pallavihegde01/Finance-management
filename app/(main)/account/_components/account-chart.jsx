@@ -3,8 +3,42 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { endOfDay, format, startOfDay, subDays } from 'date-fns';
+import { Bold } from 'lucide-react';
 import React, { useMemo, useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div
+        className="rounded-md border px-3 py-2 text-sm shadow-sm"
+        style={{
+          backgroundColor: "hsl(var(--popover))",
+          border: "1px solid hsl(var(--border))",
+          borderRadius: "var(--radius)",
+        }}
+      >
+        <p className="font-medium">{label}</p>
+        {payload.map((entry, index) => (
+          <p
+            key={index}
+            style={{
+              color: entry.dataKey === 'income' ? '#03702b' : '#910404',
+              fontWeight: 'bold',
+              margin: 0,
+            }}
+          >
+            {entry.name}: ${entry.value.toFixed(2)}
+          </p>
+        ))}
+      </div>
+    );
+  }
+
+  return null;
+};
+
 
 const DATE_RANGES = {
     "7D": { label: "Last 7 Days", days: 7 },
@@ -134,14 +168,7 @@ const AccountChart = ({transactions}) => {
               axisLine={false}
               tickFormatter={(value) => `$${value}`}
             />
-            <Tooltip
-                formatter={(value) => [`$${value}`, undefined]}
-                contentStyle={{
-                  backgroundColor: "hsl(var(--popover))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "var(--radius)",
-                }}
-            />
+            <Tooltip content={<CustomTooltip />} />
             <Legend />
             <Bar
                 dataKey="income"
