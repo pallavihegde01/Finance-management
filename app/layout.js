@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
 
       <head>
-          <link rel="icon" href="/logo-sm.png" sizes="any" />
+          <link rel="icon" href="/finlogo.png" sizes="any" />
       </head>
       
       <body className={`${inter.className}`}>
