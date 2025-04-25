@@ -126,13 +126,14 @@ const TransactionTable = ({transactions}) => {
         );
     };
 
-    const handleSelectAll = () => {
-        setSelectedIds(current => 
-            current.length === filteredAndSortedTransactions.length
-            ? []
-            : paginatedTransactions.map((t) => t.id)
-        );
-    };
+    const handleSelectAll = (checked) => {
+        if (checked) {
+          setSelectedIds(paginatedTransactions.map((t) => t.id));
+        } else {
+          setSelectedIds([]);
+        }
+      };
+      
 
     const handleBulkDelete = async () => {
         if (
@@ -244,12 +245,13 @@ const TransactionTable = ({transactions}) => {
                 <TableHeader>
                     <TableRow>
                     <TableHead className="w-[50px]">
-                        <Checkbox onCheckedChange={handleSelectAll}
-                         checked={
-                            selectedIds.length === paginatedTransactions.length &&
-                            paginatedTransactions.length > 0
-                         }
-                        />
+                    <Checkbox
+                        checked={
+                            paginatedTransactions.length > 0 &&
+                            selectedIds.length === paginatedTransactions.length
+                        }
+                        onCheckedChange={handleSelectAll}
+                    />
                     </TableHead>
                     <TableHead 
                         className='cursor-pointer'
