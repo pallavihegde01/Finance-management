@@ -9,8 +9,10 @@ import useFetch from '@/hooks/use-fetch';
 import { Check, Pencil, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'sonner';
+import { useRouter } from "next/navigation";
 
 const BudgetProgress = ({initialBudget , currentExpenses}) => {
+  const router = useRouter(); 
   
   const [isEditing, setIsEditing] = useState(false);
   const [newBudget, setNewBudget] = useState(
@@ -48,6 +50,7 @@ const BudgetProgress = ({initialBudget , currentExpenses}) => {
     if (updatedBudget?.success) {
       setIsEditing(false);
       toast.success("Budget updated successfully");
+      router.refresh();
     }
   }, [updatedBudget]);
 
