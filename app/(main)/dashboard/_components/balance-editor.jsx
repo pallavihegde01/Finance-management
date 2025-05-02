@@ -10,10 +10,8 @@ import {
   import { updateAccountBalance } from "@/actions/accounts";
   import { Input } from "@/components/ui/input";
   import { toast } from "sonner";
-import { useRouter } from "next/router";
   
   const BalanceEditor = ({ accountId, initialBalance }) => {
-    const router = useRouter();
     const [balance, setBalance] = useState(initialBalance);
     const [isOpen, setIsOpen] = useState(false);
   
@@ -31,8 +29,6 @@ import { useRouter } from "next/router";
         }
         const formattedBalance = parseFloat(balance).toFixed(2);
         await updateBalanceFn(accountId, parseFloat(formattedBalance));
-
-        router.refresh();
     };
 
     const handleChange = (e) => {
