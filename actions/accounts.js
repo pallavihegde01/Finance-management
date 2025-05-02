@@ -168,7 +168,7 @@ export async function updateAccountBalance(accountId, newBalance) {
       data: { balance: newBalance },
     });
 
-    revalidatePath("/dashboard");
+    // revalidatePath("/dashboard");
     revalidatePath(`/account/${accountId}`);
 
     return { success: true, data: serializeTransaction(updatedAccount) };
