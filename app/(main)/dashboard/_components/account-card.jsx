@@ -8,6 +8,7 @@ import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import React, { useEffect } from 'react'
 import { toast } from 'sonner';
+import BalanceEditor from './balance-editor';  // to update account balance
 
 const AccountCard = ({account}) => {
     const { name, type, balance, id, isDefault } = account;
@@ -45,15 +46,17 @@ const AccountCard = ({account}) => {
     <Card className="hover:shadow-md transition-shadow group relative">
         <Link href={`/account/${id}`}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className='text-sm font-medium capitalize'>
+                <CardTitle className='text-lg font-medium capitalize'> 
                     {name}
                 </CardTitle>
                 <Switch checked={isDefault} onClick={handleDefaultChange}
                 disabled={updateDefaultLoading}/>
             </CardHeader>
+        </Link>                        
             <CardContent>
-                <div className="text-2xl font-bold">
+                <div className="flex items-center gap-2 text-2xl font-bold">
                     ${parseFloat(balance).toFixed(2)}
+                    <BalanceEditor accountId={id} initialBalance={balance} />
                 </div>
                 <p className="text-xs text-muted-foreground">
                     {type.charAt(0) + type.slice(1).toLowerCase()} Account
@@ -69,7 +72,7 @@ const AccountCard = ({account}) => {
                     Expense
                 </div>
             </CardFooter>
-        </Link>
+        
     </Card>
 
   )
