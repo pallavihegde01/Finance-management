@@ -145,34 +145,3 @@ export async function bulkDeleteTransactions(transactionIds){
         return {success:false,error: error.message};
     }
 }
-// to update account balance
-export async function updateAccountBalance(accountId, newBalance) {
-  try {
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
-
-    const user = await db.user.findUnique({
-      where: { clerkUserId: userId },
-    });
-
-    if (!user) throw new Error("User not found");
-
-    const account = await db.account.findFirst({
-      where: { id: accountId, userId: user.id },
-    });
-
-    if (!account) throw new Error("Account not found");
-
-    const updatedAccount = await db.account.update({
-      where: { id: accountId },
-      data: { balance: newBalance },
-    });
-
-    revalidatePath("/dashboard");
-    revalidatePath(`/account/${accountId}`);
-
-    return { success: true, data: serializeTransaction(updatedAccount) };
-  } catch (error) {
-    return { success: false, error: error.message };
-  }
-}
