@@ -22,7 +22,7 @@ const AccountsPage = async ({ params }) => {
     <div className='space-y-8 px-5'>
       <div className='flex gap-4 items-end justify-between'>
         <div>
-          <h1 className='text-5xl sm:text-6xl font-bold tracking-tight capitalize md:text-8xl lg:text-[105px] bg-gradient-to-br from-blue-600 to-purple-600 pr-2 pb-2 text-transparent bg-clip-text'>{account.name}</h1>
+          <h1 className='text-5xl sm:text-6xl font-bold tracking-tight capitalize md:text-8xl lg:text-[105px] bg-gradient-to-br from-[#111439] to-[#AB2AED] pr-2 pb-2 text-transparent bg-clip-text'>{account.name}</h1>
           <p className='text-muted-foreground'>
           {account.type.charAt(0) + account.type.slice(1).toLowerCase()}{" "}
           Account

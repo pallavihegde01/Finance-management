@@ -309,7 +309,7 @@ const TransactionTable = ({transactions}) => {
                                     <span style={{
                                         background: categoryColors[transaction.category],
                                     }}
-                                        className='px-2 py-1 rounded text-white text-sm'
+                                        className='px-2 py-1 rounded text-black text-sm'
                                     >
                                     {transaction.category}
                                     </span>
