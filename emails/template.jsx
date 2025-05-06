@@ -22,6 +22,7 @@ export default function EmailTemplate({
             </Text>
 
             {/* Main Stats */}
+            {data?.stats && (
             <Section style={styles.statsContainer}>
               <div style={styles.stat}>
                 <Text style={styles.text}>Total Income</Text>
@@ -38,6 +39,7 @@ export default function EmailTemplate({
                 </Text>
               </div>
             </Section>
+            )}
 
             {/* Category Breakdown */}
             {data?.stats?.byCategory && (
@@ -87,8 +89,7 @@ export default function EmailTemplate({
           <Heading style={styles.title}>Budget Alert</Heading>
           <Text style={styles.text}>Hello {userName},</Text>
           <Text style={styles.text}>
-              You&rsquo;ve used {data?.percentageUsed.toFixed(1)}% of your
-              monthly budget.
+          You&rsquo;ve used {(data?.percentageUsed ?? 0).toFixed(1)}% of your monthly budget.
           </Text>
           <Section style={styles.statsContainer}>
               <div style={styles.stat}>
