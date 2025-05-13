@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import { subMonths, format, startOfMonth } from "date-fns";
+import { format } from "date-fns";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 import {
@@ -33,19 +33,6 @@ const COLORS = [
 ];
 
 export function DashboardOverview({ accounts, transactions }) {
-
-  const [selectedMonth, setSelectedMonth] = useState(
-    format(new Date(), "yyyy-MM")
-  );
-
-  const last12Months = Array.from({ length: 12 }, (_, i) => {
-    const date = subMonths(new Date(), i);
-    return {
-      label: format(date, "MMMM yyyy"),
-      value: format(date, "yyyy-MM"),
-    };
-  });
-
   const [selectedAccountId, setSelectedAccountId] = useState(
     accounts.find((a) => a.isDefault)?.id || accounts[0]?.id
   );
@@ -62,16 +49,14 @@ export function DashboardOverview({ accounts, transactions }) {
 
   // Calculate expense breakdown for current month
   const currentDate = new Date();
-  const [year, month] = selectedMonth.split("-");
   const currentMonthExpenses = accountTransactions.filter((t) => {
     const transactionDate = new Date(t.date);
     return (
       t.type === "EXPENSE" &&
-      transactionDate.getFullYear() === parseInt(year) &&
-      transactionDate.getMonth() === parseInt(month) - 1
+      transactionDate.getMonth() === currentDate.getMonth() &&
+      transactionDate.getFullYear() === currentDate.getFullYear()
     );
   });
-
 
   // Group expenses by category
   const expensesByCategory = currentMonthExpenses.reduce((acc, transaction) => {
@@ -161,27 +146,11 @@ export function DashboardOverview({ accounts, transactions }) {
 
       {/* Expense Breakdown Card */}
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+        <CardHeader>
           <CardTitle className="text-base font-normal">
             Monthly Expense Breakdown
           </CardTitle>
-          <Select
-            value={selectedMonth}
-            onValueChange={setSelectedMonth}
-          >
-            <SelectTrigger className="w-[160px]">
-              <SelectValue placeholder="Select month" />
-            </SelectTrigger>
-            <SelectContent>
-              {last12Months.map((month) => (
-                <SelectItem key={month.value} value={month.value}>
-                  {month.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
         </CardHeader>
-
         <CardContent className="p-0 pb-5">
           {pieChartData.length === 0 ? (
             <p className="text-center text-muted-foreground py-4">
