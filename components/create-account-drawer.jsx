@@ -13,9 +13,12 @@ import { Button } from './ui/button';
 import { Switch } from "@/components/ui/switch";
 import { createAccount } from "@/actions/dashboard";
 import { accountSchema } from "@/app/lib/schema";
+import { useRouter } from 'next/navigation';
 
 const CreateAccountDrawer = ({children}) => {
     const [open,setOpen] = useState(false);
+
+    const router = useRouter();
 
     const {
         register,
@@ -41,6 +44,7 @@ const CreateAccountDrawer = ({children}) => {
           toast.success("Account created successfully");
           reset();
           setOpen(false);
+          router.refresh(); 
         }
       }, [newAccount, reset]);
     
