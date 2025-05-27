@@ -33,6 +33,29 @@ const COLORS = [
 ];
 
 export function DashboardOverview({ accounts, transactions }) {
+
+  const [selectedMonth, setSelectedMonth] = useState(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${now.getMonth() + 1}`;
+  });
+
+  const getLastSixMonths = () => {
+    const months = [];
+    const now = new Date();
+
+    for (let i = 0; i < 6; i++) {
+      const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      months.push({
+        label: format(date, "MMMM yyyy"),
+        value: `${date.getFullYear()}-${date.getMonth() + 1}`,
+      });
+    }
+
+    return months;
+  };
+
+  const monthOptions = getLastSixMonths();
+
   const [selectedAccountId, setSelectedAccountId] = useState(
     accounts.find((a) => a.isDefault)?.id || accounts[0]?.id
   );
@@ -49,17 +72,21 @@ export function DashboardOverview({ accounts, transactions }) {
 
   // Calculate expense breakdown for current month
   const currentDate = new Date();
-  const currentMonthExpenses = accountTransactions.filter((t) => {
-    const transactionDate = new Date(t.date);
-    return (
-      t.type === "EXPENSE" &&
-      transactionDate.getMonth() === currentDate.getMonth() &&
-      transactionDate.getFullYear() === currentDate.getFullYear()
-    );
-  });
+  const [selectedYear, selectedMonthNum] = selectedMonth
+  .split("-")
+  .map(Number);
+
+const monthExpenses = accountTransactions.filter((t) => {
+  const date = new Date(t.date);
+  return (
+    t.type === "EXPENSE" &&
+    date.getFullYear() === selectedYear &&
+    date.getMonth() + 1 === selectedMonthNum
+  );
+});
 
   // Group expenses by category
-  const expensesByCategory = currentMonthExpenses.reduce((acc, transaction) => {
+  const expensesByCategory = monthExpenses.reduce((acc, transaction) => {
     const category = transaction.category;
     if (!acc[category]) {
       acc[category] = 0;
@@ -146,11 +173,24 @@ export function DashboardOverview({ accounts, transactions }) {
 
       {/* Expense Breakdown Card */}
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
           <CardTitle className="text-base font-normal">
             Monthly Expense Breakdown
           </CardTitle>
+          <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select month" />
+            </SelectTrigger>
+            <SelectContent>
+              {monthOptions.map((month) => (
+                <SelectItem key={month.value} value={month.value}>
+                  {month.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </CardHeader>
+
         <CardContent className="p-0 pb-5">
           {pieChartData.length === 0 ? (
             <p className="text-center text-muted-foreground py-4">
