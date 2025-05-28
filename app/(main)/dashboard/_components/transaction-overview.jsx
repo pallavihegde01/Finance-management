@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   PieChart,
   Pie,
@@ -54,7 +54,7 @@ export function DashboardOverview({ accounts, transactions }) {
     return months;
   };
 
-  const monthOptions = getLastSixMonths();
+  const monthOptions = useMemo(() => getLastSixMonths(), []);
 
   const [selectedAccountId, setSelectedAccountId] = useState(
     accounts.find((a) => a.isDefault)?.id || accounts[0]?.id
