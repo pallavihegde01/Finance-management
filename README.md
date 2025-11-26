@@ -38,11 +38,3 @@ A full-stack AI-powered web application for personal and small business finance 
 - Vercel (CI/CD with GitHub)
 
 ---
-
-## ⚙️ Getting Started
-
-### 1. Clone and Install
-```bash
-git clone https://github.com/your-username/finance-management-platform.git
-cd finance-management-platform
-npm install
