@@ -327,7 +327,7 @@ const TransactionTable = ({transactions}) => {
                                       <TooltipProvider>
                                         <Tooltip>
                                           <TooltipTrigger>
-                                          <Badge variant='outline' className='gap-1 bg-purple-100 text-purple-700 hover:bg-purple-200'>
+                                          <Badge variant='outline' className='gap-1 bg-red-100 text-amber-700 hover:bg-red-200'>
                                             <RefreshCw className='h-3 w-3'/>
                                             {RECURRING_INTERVALS[transaction.recurringInterval]}
                                         </Badge>

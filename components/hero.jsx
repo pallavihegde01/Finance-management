@@ -26,12 +26,12 @@ const HeroSection = () => {
   return (
     <div className="pb-20 px-4" >
         <div className="container mx-auto text-center">
-        <h1 className="text-5xl md:text-8xl lg:text-[105px] bg-gradient-to-br from-[#111439] to-[#AB2AED] font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text">
+        <h1 className="fade-in-1 text-5xl md:text-8xl lg:text-[105px] bg-gradient-to-br from-[#b45f77] to-[#4f030b] font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text">
         Achieve financial success <br /> with smart management</h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            <p className="fade-in-2 text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Optimize your finances effortlessly with an AI-powered platform that tracks, analyzes, and enhances your spending.
             </p>
-            <div className="flex justify-center space-x-4">
+            <div className="fade-in-2 flex justify-center space-x-4">
                 <Link href="/dashboard">
                     <Button size="lg" className="px-8">
                         Get Started
@@ -43,7 +43,7 @@ const HeroSection = () => {
                     </Button>
                 </Link> */}
             </div>
-            <div className="hero-image-wrapper mt-5 md:mt-0">
+            <div className="fade-in-3 hero-image-wrapper mt-5 md:mt-0">
                 <div ref={imageRef} className="hero-image">
                     <Image 
                     src="/banner.jpg" 
