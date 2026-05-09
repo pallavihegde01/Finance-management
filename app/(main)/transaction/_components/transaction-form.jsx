@@ -28,7 +28,7 @@ const AddTransactionForm = ({
 
 }) => {
 
-
+    
     const router = useRouter();
     const searchParams = useSearchParams();
     const editId = searchParams.get("edit");
@@ -62,6 +62,7 @@ const AddTransactionForm = ({
             type: "EXPENSE",
             amount: "",
             description: "",
+            category:"",
             accountId: accounts.find((ac) => ac.isDefault)?.id,
             date: new Date(),
             isRecurring:false,
@@ -103,24 +104,40 @@ const AddTransactionForm = ({
     const type = watch("type");
     const isRecurring = watch("isRecurring");
     const date = watch("date");
+    const categoryValue = watch("category") || "";
 
     const filteredCategories = categories.filter(
         (category) => category.type === type
     );
 
     const handleScanComplete = (scannedData) => {
-        if (scannedData) {
-            setValue("amount", scannedData.amount.toString());
-            setValue("date", new Date(scannedData.date));
-            if (scannedData.description) {
-              setValue("description", scannedData.description);
+        if (!scannedData) return;
+
+        setValue("amount", scannedData.amount.toString());
+        setValue("date", new Date(scannedData.date));
+        setValue("description", scannedData.description || "");
+
+        if (scannedData.type) {
+            const type = scannedData.type.toUpperCase();
+            setValue("type", type);
+        }
+
+        if (scannedData.category) {
+            const matchedCategory = categories.find(
+            (cat) =>
+                cat.name.toLowerCase() === scannedData.category.toLowerCase()
+            );
+
+            if (matchedCategory) {
+            setTimeout(() => {
+                setValue("category", matchedCategory.id);
+            }, 0);
             }
-            if (scannedData.category) {
-              setValue("category", scannedData.category);
-            }
-            toast.success("Receipt scanned successfully");
-          }      
-    }
+        }
+
+        toast.success("Receipt scanned successfully");
+    };
+
 
   return (
     <form  onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
@@ -196,8 +213,8 @@ const AddTransactionForm = ({
         <div className="space-y-2">
             <label className="text-sm font-medium">Category</label>
             <Select
+            value={categoryValue}
             onValueChange={(value) => setValue("category", value)}
-            defaultValue={getValues("category")}
             >
             <SelectTrigger>
                 <SelectValue placeholder="Select Category" />
